@@ -6,8 +6,6 @@ const localtunnel = require('localtunnel');
 app.use(express.json()); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
 
-//Make sure you run "npm install -g localtunnel" (unless you already have localtunnel installed) and run "lt --port 3050" to make the webhook endpoint publicly available!
-
 const doStuff = (foo, origin) => (console.log("The Webhook was Triggered!", origin), console.log(foo));
 
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
@@ -44,7 +42,7 @@ app.listen(
   () => console.log('Service Is Running! http://localhost:3050')
 );
 
-(async () => {
+(async (PORT) => {
   const tunnel = await localtunnel({ port: PORT });
   console.log('Public URL at ' + tunnel.url);
   tunnel.on('close', () => {
