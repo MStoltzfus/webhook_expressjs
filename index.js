@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = 3050;
+const localtunnel = require('localtunnel');
 
 app.use(express.json()); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
@@ -40,5 +41,13 @@ app.get("/webhook", (req, res, next) => {
 
 app.listen(
   PORT,
-  () => console.log('we in the club, boys! http://localhost:3050')
+  () => console.log('Service Is Running! http://localhost:3050')
 );
+
+(async () => {
+  const tunnel = await localtunnel({ port: PORT });
+  console.log('Public URL at ' + tunnel.url);
+  tunnel.on('close', () => {
+    //tunnels are closed
+  });
+})();
