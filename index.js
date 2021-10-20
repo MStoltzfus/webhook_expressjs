@@ -5,21 +5,11 @@ const PORT = 3050;
 app.use(express.json()); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
 
-//app.use( express.json() );
-//app.use(express.urlencoded()); //Parse URL-encoded bodies
+//Make sure you run "npm install -g localtunnel" (unless you already have localtunnel installed) and run "lt --port 3050" to make the webhook endpoint publicly available!
 
-//app.post('/webhook', (req,res) => {
-//    console.log('Webhook triggered:', req.body);
-//    res.status(200).end()
-//});
+const doStuff = (foo) => (console.log("The Webhook was Triggered!"), console.log(foo));
 
-//app.post('/webhook', urlencodedParser, function (req, res) {
-//  console.log('Webhook triggered:', req.body);
-//  res.status(200).end()
-//});
-
-const doStuff = (foo) => (console.log("stuff happened"), console.log(foo));
-
+//creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
 app.post('/webhook', urlencodedParser, function (req, res) {
   let foo = req.body;
   doStuff(foo)
