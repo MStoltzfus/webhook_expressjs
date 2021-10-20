@@ -21,7 +21,7 @@ app.post('/webhook', urlencodedParser, function (req, res) {
 //creates a "/" endpoint to the domain
 app.post('/', urlencodedParser, function (req, res) {
   let foo = req.body;
-  let origin = ' from /';
+  let origin = '/';
   doStuff(foo, origin);
   res.send("POST Request Recieved from " + origin);
   res.status(200).end();
