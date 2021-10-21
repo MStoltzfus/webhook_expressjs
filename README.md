@@ -8,8 +8,8 @@ Just a simple ExpressJS app that opens up a server on localhost:3050 and uses th
 ## Installation
 
 #### Machine Prerequisites
-1. Git `https://git-scm.com/` (To pull the code from the Github Repository)
-2. Node `https://nodejs.org/en/download/` (To host/run the app on your local machine)
+- Git `https://git-scm.com/` (To pull the code from the Github Repository)
+- Node `https://nodejs.org/en/download/` (To host/run the app on your local machine)
 #### Install Steps
 1. Navigate into a folder of your choice.
 2. Open your terminal of choice in the directory (on Windows, you can simply shift + right-click and select "Open Powershell Window Here")
