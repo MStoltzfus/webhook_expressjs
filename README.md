@@ -28,9 +28,9 @@ The following URL endpoints are available
 	<!-- why, markdown... -->
 	<thead>
 		<tr>
-			<th width="25%">URL Route</th>
-            <th width="25%">HTTP Verb</th>
-			<th width="50%">Description</th>
+			<th width="15%">URL Route</th>
+            <th width="10%">HTTP Verb</th>
+			<th width="75%">Description</th>
             <th>
 		</tr>
 	<thead>
