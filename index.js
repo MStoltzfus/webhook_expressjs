@@ -18,7 +18,7 @@ const webhookTriggerResponse = (body, origin) => {
 const openTunnel = async (PORT) => {
   const tunnel = await localtunnel({ port: PORT });
   console.log('Public tunnel live on ' + tunnel.url);
-  console.log('If you want to retrieve the public url for a running instance of this app, you can send a \'GET\' request to localhost:3050/url');
+  console.log('If you want to retrieve the public url for a running instance of this app at any time, you can send a \'GET\' request to localhost:3050/url');
   pubUrl = tunnel.url;
 };
 
