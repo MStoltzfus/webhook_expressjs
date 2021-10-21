@@ -1,6 +1,6 @@
 # webhook_expressjs
 
-Just a simple ExpressJS app that opens up a server on localhost:3050 and uses the localtunnel API to start automatically launch a publicly accessible tunnel link to the app.
+Just a simple ExpressJS app that opens up a server on localhost:3050 and uses the localtunnel API to automatically create a publicly accessible tunnel link to the app.
 It was created as a way to accept incoming webhooks on your local machine as an alternative to creating Microsoft PowerAutomate Flows or relying on something like RequestBin & Pipedream.
 
 Allows for GET requests on the "/", "/webhook", and "/url" routes (the "/url" route returns the public localtunnel URL)
