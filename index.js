@@ -59,8 +59,8 @@ app.get("/webhook", (req, res) => {
 });
 
 //starts the expressJS app
-app.listen( PORT, pubUrl, () => {
+app.listen( PORT, () => {
     console.log('Service Is Running! http://localhost:3050');
-    openTunnel(PORT, pubUrl);
+    openTunnel(PORT);
   }
 );
