@@ -3,7 +3,7 @@
 Just a simple ExpressJS app that opens up a server on localhost:3050 and uses the localtunnel API to automatically create a publicly accessible tunnel link to the app. It was created as a way to accept incoming webhooks on your local machine as an alternative to creating Microsoft PowerAutomate Flows or relying on something like RequestBin & Pipedream.
 
 ### Preview
-<img src="screenshot.png" alt="screenshot" width ="75%"/>
+<img src="screenshot.png" alt="screenshot" width ="40%"/>
 
 ### Machine Prerequisites
 1. Git `https://git-scm.com/` (To pull the code from the Github Repository)
