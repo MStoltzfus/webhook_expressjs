@@ -30,8 +30,7 @@ app.post('/webhook', urlencodedParser, function (req, res) {
   res.status(200).end();
 });
 
-//creates a "/" endpoint to the domain
-
+//allows for incoming post requests to /webhook
 app.post('/', urlencodedParser, function (req, res) {
   let body = req.body;
   let origin = '/';
@@ -40,21 +39,25 @@ app.post('/', urlencodedParser, function (req, res) {
   res.status(200).end();
 });
 
+//allows for incoming get requests to / 
 app.get("/", (req, res) => {
   res.send("You did a thing! If you send a POST request to this endpoint, it should work too!");
   res.status(200).end();
 });
 
+//returns the public url when a get request is made to /url
 app.get("/url", (req, res) => {
   res.send(pubUrl);
   res.status(200).end();
 });
 
+//allows for incoming post requests to /webhook
 app.get("/webhook", (req, res) => {
   res.send("You did a thing, but for the /webhook!!! If you send a POST request to this endpoint, it should work too!");
   res.status(200).end();
 });
 
+//starts the expressJS app
 app.listen( PORT, pubUrl, () => {
     console.log('Service Is Running! http://localhost:3050');
     openTunnel(PORT, pubUrl);
