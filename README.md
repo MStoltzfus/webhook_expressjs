@@ -10,13 +10,13 @@ Just a simple ExpressJS app that opens up a server on localhost:3050 and uses th
 #### Machine Prerequisites
 1. Git `https://git-scm.com/` (To pull the code from the Github Repository)
 2. Node `https://nodejs.org/en/download/` (To host/run the app on your local machine)
-
-4. Navigate into a folder of your choice.
-5. Open your terminal of choice in the directory (on Windows, you can simply shift + right-click and select "Open Powershell Window Here")
-6. Execute `git clone https://github.com/MStoltzfus/webhook_expressjs/`
-7. Navigate to newly created folder using `cd webhook_expressjs`
-8. Execute `npm install` (This will download the node packages that this project depends on to run; failing to do this will result in module errors when you attempt to launch the app in the next step)
-9. Execute `npm start` (launches the Express.JS app)
+#### Install Steps
+1. Navigate into a folder of your choice.
+2. Open your terminal of choice in the directory (on Windows, you can simply shift + right-click and select "Open Powershell Window Here")
+3. Execute `git clone https://github.com/MStoltzfus/webhook_expressjs/`
+4. Navigate to newly created folder using `cd webhook_expressjs`
+5. Execute `npm install` (This will download the node packages that this project depends on to run; failing to do this will result in module errors when you attempt to launch the app in the next step)
+6. Execute `npm start` (launches the Express.JS app)
 
 Connection URLs for both local and public connections to the app will be displayed upon successful launch of the app in your console.
 
