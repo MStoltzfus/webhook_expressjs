@@ -3,13 +3,14 @@
 Just a simple ExpressJS app that opens up a server on localhost:3050 and uses the localtunnel API to automatically create a publicly accessible tunnel link to the app. It was created as a way to accept incoming webhooks on your local machine as an alternative to creating Microsoft PowerAutomate Flows or relying on something like RequestBin & Pipedream.
 
 ### Preview
-![Screenshot](screenshot.png)
-
-### Machine Prerequisites
-1. Git `https://git-scm.com/` (To pull the code from the Github Repository)
-2. Node `https://nodejs.org/en/download/` (To host/run the app on your local machine)
+<img src="screenshot.png" alt="screenshot" width ="40%"/>
 
 ## Installation
+
+#### Machine Prerequisites
+- Git `https://git-scm.com/` (To pull the code from the Github Repository)
+- Node `https://nodejs.org/en/download/` (To host/run the app on your local machine)
+#### Install Steps
 1. Navigate into a folder of your choice.
 2. Open your terminal of choice in the directory (on Windows, you can simply shift + right-click and select "Open Powershell Window Here")
 3. Execute `git clone https://github.com/MStoltzfus/webhook_expressjs/`
@@ -28,9 +29,9 @@ The following URL endpoints are available
 	<!-- why, markdown... -->
 	<thead>
 		<tr>
-			<th width="25%">URL Route</th>
-            <th width="25%">HTTP Verb</th>
-			<th width="50%">Description</th>
+			<th width="15%">URL Route</th>
+            <th width="10%">HTTP Verb</th>
+			<th width="75%">Description</th>
             <th>
 		</tr>
 	<thead>
