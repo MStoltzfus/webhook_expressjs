@@ -3,39 +3,45 @@
 <!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]> <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html class="bg-gray-500 p-8">
 
-        <title>Michael's Webhook Tester</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!--script src="https://unpkg.com/petite-vue" defer="defer" init="init"></script> -->
-        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-        <script src="main.js" defer="defer"></script>
-    </head>
-    <body background-color:="background-color:" dark="dark">
-        <h1>Test App</h1>
-        <template id="example">
-            {{store.count}}
-            <button class="bg-red-400 rounded shadow" @click="apiCall">
-                Test
+    <title>Michael's Webhook Tester</title>
+
+    <!--script src="https://unpkg.com/petite-vue" defer="defer" init="init"></script> -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="main.js" defer="defer"></script>
+</head>
+
+<body>
+    <h1 class="text-4xl">Test App</h1>
+
+    <div id="" WebhookData">
+
+        <form @submit.prevent="store.fetch">
+            <input class="border-2 mt-4 p-4 shadow" type="text" />
+            <button @click="store.fetch" class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-2xl uppercase">
+                Submit
             </button>
-        </template>
-    </template>
+        </form>
 
-    <div v-scope="exampleFunction()"></div>
-    <div v-scope="exampleFunction()"></div>
-    <div v-scope="exampleFunction()"></div>
-    <button class="bg-blue-400 rounded shadow" onclick="clickHandler()">Click Me!</button>
+
+    </div>
+
+
+    <button class="bg-blue-400 p-2.5 rounded shadow" onclick="clickHandler()">Click Me!</button>
 
     <script>
         function clickHandler() {
             let timesRun = 0;
             console.log('clicked');
+            apiCall();
             const interval = setInterval(function () {
                 timesRun += 1;
                 if (timesRun === 5) {
@@ -59,22 +65,30 @@
                 .then(stuff => console.log(stuff));
         };
     </script>
-
     <script type="module">
-        import {createApp, reactive} from "https://unpkg.com/petite-vue?module"
+        import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
 
         const store = reactive({
-            count: 30,
-            increment() {
-                this.count = this.count + 5;
+            searchText: "",
+            results: "",
+            async fetch() {
+                const apiCall = await fetch('/webhook', {
+                    method: 'GET',
+                    headers: {
+                        "authkey": "1234567890",
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    }
+                })
+                const res = await apiCall.json();
+                console.log(res)
+                this.results = res.results;
             }
         });
 
-        function exampleFunction() {
-            return {$template: "#example"};
-        };
+        createApp({ store }).mount("#WebhookData");
 
-        createApp({exampleFunction, store}).mount();
     </script>
 </body>
+
 </html>
