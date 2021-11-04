@@ -34,8 +34,30 @@
 
     <script>
         function clickHandler() {
-            console.log("something");
-        }
+            let timesRun = 0;
+            console.log('clicked');
+            const interval = setInterval(function () {
+                timesRun += 1;
+                if (timesRun === 5) {
+                    clearInterval(interval);
+                }
+                console.log('calling API');
+                apiCall();
+            }, 3000);
+        };
+
+        function apiCall() {
+            fetch('/webhook', {
+                method: 'GET',
+                headers: {
+                    "authkey": "1234567890",
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(stuff => console.log(stuff));
+        };
     </script>
 
     <script type="module">
@@ -52,11 +74,7 @@
             return {$template: "#example"};
         };
 
-        function apiCall() {
-            setInterval(alert('clicked'), 3000);
-        };
-
-        createApp({exampleFunction, store, apiCall}).mount();
+        createApp({exampleFunction, store}).mount();
     </script>
 </body>
 </html>
