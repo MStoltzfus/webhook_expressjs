@@ -4,7 +4,13 @@ const moment = require('moment');
 const app = express();
 const PORT = 3050;
 
-app.use(express.json()); //Used to parse JSON bodies
+//starts the expressJS app
+app.listen( PORT, () => {
+  console.log('Service Is Running! http://localhost:3050');
+  openTunnel(PORT);
+});
+
+app.use(express.json({ limit: '500kb'})); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
 var pubUrl = "";
 
@@ -57,10 +63,3 @@ app.get("/webhook", (req, res) => {
   res.send("You did a thing, but for the /webhook!!! If you send a POST request to this endpoint, it should work too!");
   res.status(200).end();
 });
-
-//starts the expressJS app
-app.listen( PORT, () => {
-    console.log('Service Is Running! http://localhost:3050');
-    openTunnel(PORT);
-  }
-);
