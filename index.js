@@ -3,16 +3,16 @@ const moment = require('moment');
 
 const app = express();
 const PORT = process.env.PORT || 3050;
+var pubUrl = process.env.URL;
+
 
 //starts the expressJS app
 app.listen(PORT, () => {
-  console.log('Service Is Running! http://localhost:3050');
+  console.log('Service Is Running! http://localhost:3050 &' + pubUrl);
 });
 
 app.use(express.json({ limit: '500kb' })); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
-
-var pubUrl = process.env.URL;
 
 app.use(express.static('public')); //serves the frontend page (index.html)
 
