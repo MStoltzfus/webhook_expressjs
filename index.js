@@ -12,7 +12,7 @@ app.listen(PORT, () => {
 app.use(express.json({ limit: '500kb' })); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
 
-var pubUrl = "";
+var pubUrl = process.env.URL;
 
 app.use(express.static('public')); //serves the frontend page (index.html)
 
@@ -21,19 +21,6 @@ const webhookTriggerResponse = (origin) => {
   console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
 };
 
-//opens local-tunnel, logs the url, and sets the pubUrl variable, which the get /url route uses to return a value
-const openTunnel = async (PORT) => {
-  const tunnel = await localtunnel({ port: PORT });
-  console.log('Public tunnel live on ' + tunnel.url);
-  console.log('If you want to retrieve the public URL for a running instance of this app at any time, you can send a \'GET\' request to localhost:3050/url');
-  pubUrl = tunnel.url;
-  tunnel.on('close', () => {
-    console.log('The localTunnel public URL has expired.')
-  });
-  tunnel.on('error', (err) => {
-    console.log('localTunnel error - ' + err)
-  });
-};
 
 /*
 --
