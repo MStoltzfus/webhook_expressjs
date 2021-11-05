@@ -22,20 +22,38 @@
 <body>
     <h1 class="text-4xl">Test App</h1>
 
-    <div id="" WebhookData">
-
-        <form @submit.prevent="store.fetch">
-            <input class="border-2 mt-4 p-4 shadow" type="text" />
+    <div id="WebhookData">
+        <div class="flex flex-col items-center justify-center mt-10 w-full">
             <button @click="store.fetch" class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-2xl uppercase">
                 Submit
             </button>
-        </form>
-
-
+        </div>
+        <div class="grid grid-cols-3 gap-6 mt-5">
+            <div class="
+            flex flex-col
+            items-center
+            shadow
+            border-2
+            p-5
+            transition
+            duration-500
+            ease-in-out
+            transform
+            hover\:-translate-y-1 hover\:scale-105
+            " v-for="data in store.data" :key="data.guid">
+                <a :href="data._id ?? #" target="_blank"
+                    class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105">
+                    <h3 class="font-bold text-xl">{{data.name}}</h3>
+                    <h3 class="font-bold text-base">{{data.company}}</h3>
+                    <h3 class="font-bold text-base">{{data.email}}</h3>
+                    <h3 class="font-bold text-base">{{data.phone}}</h3>
+                </a>
+            </div>
+        </div>
     </div>
 
 
-    <button class="bg-blue-400 p-2.5 rounded shadow" onclick="clickHandler()">Click Me!</button>
+    <!--@click="store.fetch" button class="bg-blue-400 p-2.5 rounded shadow" onclick="clickHandler()">Click Me!</button>-->
 
     <script>
         function clickHandler() {
@@ -70,7 +88,7 @@
 
         const store = reactive({
             searchText: "",
-            results: "",
+            data: "",
             async fetch() {
                 const apiCall = await fetch('/webhook', {
                     method: 'GET',
@@ -82,7 +100,7 @@
                 })
                 const res = await apiCall.json();
                 console.log(res)
-                this.results = res.results;
+                this.data = res.data;
             }
         });
 
