@@ -6,12 +6,12 @@ const app = express();
 const PORT = 3050;
 
 //starts the expressJS app
-app.listen( PORT, () => {
+app.listen(PORT, () => {
   console.log('Service Is Running! http://localhost:3050');
   openTunnel(PORT);
 });
 
-app.use(express.json({ limit: '500kb'})); //Used to parse JSON bodies
+app.use(express.json({ limit: '500kb' })); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
 var pubUrl = "";
 
@@ -43,7 +43,7 @@ This is the start of the actual Express Routes Code
 */
 
 //Creates a const array to store the data from the webhooks
-const hookData = [];
+var hookData = [];
 
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
 app.post('/webhook', urlencodedParser, function (req, res) {
@@ -52,7 +52,7 @@ app.post('/webhook', urlencodedParser, function (req, res) {
   webhookTriggerResponse(body, origin);
   hookData.push(body);
   console.log(hookData)
-  res.send("POST Request Recieved! Pretty neat, ain't it!? You sent it to " + origin + ", right?");
+  res.send("Data POSTed. You can send a '\GET'\ request to " + origin + " get the current stored data. Note: Proper authorization required.");
   res.status(200).end();
 });
 
@@ -80,17 +80,35 @@ app.get("/url", (req, res) => {
 //allows for incoming post requests to /webhook
 app.get("/webhook", (req, res) => {
   if (req.headers['authkey'] == "1234567890") {
-    console.log(`${req.headers['authkey']} is valid`);
+    console.log(`The submitted authkey '\ ${req.headers['authkey']} '\ is valid`);
     res.json({
-      message: "You did a thing, but for the /webhook!!! If you send a POST request to this endpoint, it should work too!",
+      message: "Your Auth Key was valid, so you get data!!!",
       data: hookData
     });
   } else {
     console.log('invalid authkey');
-    res.json({
-      message: "You submitted an invalid auth key"
-    })
+    res.send("No valid auth key");
   };
   res.status(200).end();
-  console.log('GET request to /webhook - we returned the \'hookData\' array');
+  console.log('GET request to /webhook - returned the \'hookData\' array to requester');
+});
+
+//clears the hookData variable
+app.post('/cleardata', urlencodedParser, function (req, res) {
+  let body = req.body;
+  let origin = '/cleardata';
+  if (req.headers['authkey'] == "1234567890") {
+    console.log(`The submitted authkey '\ ${req.headers['authkey']} '\ is valid`);
+    console.log('request origin - ' + origin)
+    hookData = [];
+    res.json({
+      message: "The submitted authkey was valid. Data cleared.",
+      data: hookData
+    });
+  } else {
+    console.log('invalid authkey');
+    res.send("No valid auth key");
+  };
+  res.status(200).end();
+  console.log('POST request to ' + origin + ' - the \'hookData\' array has been cleared');
 });
