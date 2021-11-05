@@ -46,15 +46,16 @@
 
         async function clearServerData() {
             const clearData = await fetch( '/cleardata', {
-                    method: 'POST',
-                    headers: {
-                        "authkey": "1234567890",
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    }
-                } )
-                const res = await clearData.json();
-                console.log( res );
+                method: 'POST',
+                headers: {
+                    "authkey": "1234567890",
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+            } )
+            const res = await clearData.json();
+            console.log( res );
+            store.data = "";
         };
 
         const store = reactive( {
@@ -73,22 +74,21 @@
                     }
                 } )
                 const res = await apiCall.json();
-                console.log( res );
                 store.data = res.data;
             },
 
             appInterval() {
-                store.fetchData();
                 const interval = setInterval( function () {
                     if ( store.isActive == false ) {
                         clearInterval( interval );
                     }
-                    console.log( 'calling API' );
+                    console.log( 'Polling API' );
                     store.fetchData();
                 }, 1000 );
             },
 
             toggleApp() {
+                store.fetchData();
                 if ( store.isActive == false ) {
                     store.isActive = true;
                     store.appState = 'Running';
@@ -97,10 +97,10 @@
                     store.isActive = false;
                     store.appState = 'Off';
                 };
-                console.log( store.isActive, store.appState );
+                console.log( 'App is ' + store.appState );
             }
 
-        });
+        } );
 
         const prettyData = ( value ) => {
             return JSON.stringify( value, null, 2 );

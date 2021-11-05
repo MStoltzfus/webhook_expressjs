@@ -3,7 +3,7 @@ const localtunnel = require('localtunnel');
 const moment = require('moment');
 
 const app = express();
-const PORT = 3050;
+const PORT = process.env.PORT || 3050;
 
 //starts the expressJS app
 app.listen(PORT, () => {
@@ -13,9 +13,10 @@ app.listen(PORT, () => {
 
 app.use(express.json({ limit: '500kb' })); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
+
 var pubUrl = "";
 
-app.use(express.static('public'));
+app.use(express.static('public')); //serves the frontend page (index.html)
 
 const webhookTriggerResponse = (origin) => {
   console.log("The Webhook was Triggered!", origin);
