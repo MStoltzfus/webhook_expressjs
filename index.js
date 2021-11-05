@@ -1,5 +1,4 @@
 const express = require('express');
-const localtunnel = require('localtunnel');
 const moment = require('moment');
 
 const app = express();
@@ -8,7 +7,6 @@ const PORT = process.env.PORT || 3050;
 //starts the expressJS app
 app.listen(PORT, () => {
   console.log('Service Is Running! http://localhost:3050');
-  openTunnel(PORT);
 });
 
 app.use(express.json({ limit: '500kb' })); //Used to parse JSON bodies
