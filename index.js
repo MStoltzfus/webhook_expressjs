@@ -8,7 +8,7 @@ var pubUrl = process.env.URL;
 
 //starts the expressJS app
 app.listen(PORT, () => {
-  console.log('Service Is Running! http://localhost:3050 &' + pubUrl);
+  console.log('Service Is Running! http://localhost:3050 & ' + pubUrl);
 });
 
 app.use(express.json({ limit: '500kb' })); //Used to parse JSON bodies
@@ -72,7 +72,6 @@ app.get("/url", (req, res) => {
 //allows for incoming post requests to /webhook
 app.get("/webhook", (req, res) => {
   if (req.headers['authkey'] == "1234567890") {
-    console.log(`The submitted authkey '\ ${req.headers['authkey']} '\ is valid`);
     if (hookData !== null) {
       res.json({
         message: "Your Auth Key was valid, so you get data!!!",
@@ -88,7 +87,7 @@ app.get("/webhook", (req, res) => {
     res.send("No valid auth key");
   };
   res.status(200).end();
-  console.log('GET request to /webhook - returned the \'hookData\' array to requester');
+  console.log('GET request to /webhook');
 });
 
 //clears the hookData variable
