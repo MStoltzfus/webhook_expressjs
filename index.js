@@ -17,7 +17,7 @@ var pubUrl = "";
 
 app.use(express.static('public'));
 
-const webhookTriggerResponse = (body, origin) => {
+const webhookTriggerResponse = (origin) => {
   console.log("The Webhook was Triggered!", origin);
   console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
 };
@@ -43,14 +43,20 @@ This is the start of the actual Express Routes Code
 */
 
 //Creates a const array to store the data from the webhooks
-var hookData = [];
+var hookData = null;
 
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
 app.post('/webhook', urlencodedParser, function (req, res) {
+  let i = 0;
   let body = req.body;
   let origin = '/webhook';
-  webhookTriggerResponse(body, origin);
-  hookData.push(body);
+  webhookTriggerResponse(origin);
+  if (hookData !== null) {
+    hookData.push(body);
+  } else {
+    hookData = [];
+    hookData.push(body); 
+  };
   console.log(hookData)
   res.send("Data POSTed. You can send a '\GET'\ request to " + origin + " get the current stored data. Note: Proper authorization required.");
   res.status(200).end();
@@ -81,10 +87,16 @@ app.get("/url", (req, res) => {
 app.get("/webhook", (req, res) => {
   if (req.headers['authkey'] == "1234567890") {
     console.log(`The submitted authkey '\ ${req.headers['authkey']} '\ is valid`);
-    res.json({
-      message: "Your Auth Key was valid, so you get data!!!",
-      data: hookData
-    });
+    if (hookData !== null) {
+      res.json({
+        message: "Your Auth Key was valid, so you get data!!!",
+        data: hookData
+      });
+    } else {
+      res.json({
+        message: "Your Auth Key was valid, but there is no data to return!"
+      });
+    }
   } else {
     console.log('invalid authkey');
     res.send("No valid auth key");
@@ -100,7 +112,7 @@ app.post('/cleardata', urlencodedParser, function (req, res) {
   if (req.headers['authkey'] == "1234567890") {
     console.log(`The submitted authkey '\ ${req.headers['authkey']} '\ is valid`);
     console.log('request origin - ' + origin)
-    hookData = [];
+    hookData = null;
     res.json({
       message: "The submitted authkey was valid. Data cleared.",
       data: hookData

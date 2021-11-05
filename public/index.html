@@ -4,7 +4,8 @@
 <!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]> <html class="no-js"> <!--<![endif]-->
 <html class="bg-gray-500 p-8">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
@@ -13,86 +14,100 @@
 
     <title>Michael's Webhook Tester</title>
 
-    <!--script src="https://unpkg.com/petite-vue" defer="defer" init="init"></script> -->
-    <link
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <script src="main.js" defer="defer"></script>
-  </head>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+</head>
 
-  <body>
-    <h1 class="text-4xl">Test App</h1>
+<body>
+    <h1 class="text-4xl">Webhook Test App</h1>
 
     <div id="WebhookData">
-      <div class="flex flex-col items-center justify-center mt-10 w-full">
-        <button
-          @click="store.fetch"
-          class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase"
-        >
-          Submit
-        </button>
-      </div>
-      <div class="grid grid-cols-1 gap-6 mt-5">
-        <div
-          class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105"
-          v-for="data in store.data"
-          :key="data.guid"
-        >
-          <a
-            target="_blank"
-            class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105"
-          >
-            <h3 class="font-bold text-base">{{data.name}}</h3>
-            <pre>{{ prettyData(data) }}</pre>
-          </a>
+        <div class="flex items-center space-x-3 justify-center mt-10 w-full">
+            <button @click="store.toggleApp" class="bg-red-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
+                Toggle App State
+            </button>
+            <h3 class="text-base mt-4 p-3 rounded shadow bg-green-300">{{ store.appState }}</h3>
+            <button @click="clearServerData" class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
+                Clear Data
+            </button>
         </div>
-      </div>
+        <div class="grid grid-cols-1 gap-6 mt-5">
+            <div class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105"
+                v-for="data in store.data">
+                <a target="_blank"
+                    class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105">
+                    <h3 class="font-bold text-base">{{data.name}}</h3>
+                    <pre>{{ prettyData(data) }}</pre>
+                </a>
+            </div>
+        </div>
     </div>
     <script type="module">
-          import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
+        import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
 
-          function clickHandler() {
-          let timesRun = 0;
-          console.log('clicked');
-          apiCall();
-          const interval = setInterval(function () {
-              timesRun += 1;
-              if (timesRun === 5) {
-                  clearInterval(interval);
-              }
-              console.log('calling API');
-              apiCall();
-          }, 3000);
-      };
+        async function clearServerData() {
+            const clearData = await fetch( '/cleardata', {
+                    method: 'POST',
+                    headers: {
+                        "authkey": "1234567890",
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    }
+                } )
+                const res = await clearData.json();
+                console.log( res );
+        };
 
-          const store = reactive({
-              searchText: "",
-              data: "",
-              async fetch() {
-                  const apiCall = await fetch('/webhook', {
-                      method: 'GET',
-                      headers: {
-                          "authkey": "1234567890",
-                          "Accept": "application/json",
-                          "Content-Type": "application/json"
-                      }
-                  })
-                  const res = await apiCall.json();
-                  console.log(res)
-                  this.data = res.data;
-              }
-          });
+        const store = reactive( {
+            isActive: false,
+            appState: 'Off',
+            authKey: '',
+            data: "",
 
-          const prettyData = (value) => {
-              return JSON.stringify(value, null, 2);
-          }
+            async fetchData() {
+                const apiCall = await fetch( '/webhook', {
+                    method: 'GET',
+                    headers: {
+                        "authkey": "1234567890",
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    }
+                } )
+                const res = await apiCall.json();
+                console.log( res );
+                store.data = res.data;
+            },
 
-          const authkey = reactive({
-              authKeyValue = ""
-          });
+            appInterval() {
+                store.fetchData();
+                const interval = setInterval( function () {
+                    if ( store.isActive == false ) {
+                        clearInterval( interval );
+                    }
+                    console.log( 'calling API' );
+                    store.fetchData();
+                }, 1000 );
+            },
 
-          createApp({ store, prettyData }).mount("#WebhookData");
+            toggleApp() {
+                if ( store.isActive == false ) {
+                    store.isActive = true;
+                    store.appState = 'Running';
+                    store.appInterval();
+                } else {
+                    store.isActive = false;
+                    store.appState = 'Off';
+                };
+                console.log( store.isActive, store.appState );
+            }
+
+        });
+
+        const prettyData = ( value ) => {
+            return JSON.stringify( value, null, 2 );
+        }
+
+        createApp( { store, prettyData, clearServerData } ).mount( "#WebhookData" );
     </script>
-  </body>
+</body>
+
 </html>
