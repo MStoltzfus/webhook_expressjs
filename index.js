@@ -1,6 +1,6 @@
 const express = require( 'express' );
 const moment = require( 'moment' );
-const Websocket = require( 'ws' );
+const Websocket = require( 'ws' )
 
 const app = express();
 const PORT = process.env.PORT || 3050;
@@ -10,6 +10,21 @@ var pubUrl = process.env.URL;
 app.listen( PORT, () => {
   console.log( 'Service Is Running! http://localhost:3050 & ' + pubUrl );
 
+  startWebsocket();
+
+} );
+
+app.use( express.json( { limit: '500kb' } ) ); //Used to parse JSON bodies
+var urlencodedParser = ( express.urlencoded( { extended: true } ) )//Parse URL-encoded bodies
+
+app.use( express.static( 'public' ) ); //serves the frontend page (index.html)
+
+const webhookTriggerResponse = ( origin ) => {
+  console.log( "The Webhook was Triggered!", origin );
+  console.log( moment().format( 'MMMM Do YYYY, h:mm:ss a' ) );
+};
+
+const startWebsocket = () => {
   const server = new Websocket.Server( { port: 3080 } );
 
   console.log( 'WS Server started' );
@@ -24,19 +39,7 @@ app.listen( PORT, () => {
 
     } );
   } );
-
-} );
-
-app.use( express.json( { limit: '500kb' } ) ); //Used to parse JSON bodies
-var urlencodedParser = ( express.urlencoded( { extended: true } ) )//Parse URL-encoded bodies
-
-app.use( express.static( 'public' ) ); //serves the frontend page (index.html)
-
-const webhookTriggerResponse = ( origin ) => {
-  console.log( "The Webhook was Triggered!", origin );
-  console.log( moment().format( 'MMMM Do YYYY, h:mm:ss a' ) );
-};
-
+}
 
 /*
 --
@@ -61,6 +64,9 @@ app.post( '/webhook', urlencodedParser, function ( req, res ) {
   };
   console.log( hookData )
   res.send( "Data POSTed. You can send a '\GET'\ request to " + origin + " get the current stored data. Note: Proper authorization required." );
+
+  //Websocket.send( hookData );
+
   res.status( 200 ).end();
 } );
 
@@ -118,10 +124,10 @@ app.post( '/cleardata', urlencodedParser, function ( req, res ) {
       message: "The submitted authkey was valid. Data cleared.",
       data: hookData
     } );
+    console.log( 'POST request to ' + origin + ' - the \'hookData\' array has been cleared' );
   } else {
-    console.log( 'invalid authkey' );
+    console.log( 'POST request to ' + origin + ' but the authkey was not valid. The \'hookData\' array has NOT been cleared' );
     res.send( "No valid auth key" );
   };
   res.status( 200 ).end();
-  console.log( 'POST request to ' + origin + ' - the \'hookData\' array has been cleared' );
 } );
