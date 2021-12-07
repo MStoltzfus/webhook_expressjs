@@ -15,6 +15,7 @@
     <title>Michael's Webhook Tester</title>
 
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="main.js"></script>
 </head>
 
 <body>
@@ -29,6 +30,7 @@
             <button @click="clearServerData" class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
                 Clear Data
             </button>
+            <button-wstest onclick="sendHello()" class="bg-blue-300 font-bold mt-4 p-3 rounded shadow text-xl uppercase">Websocket Test Button</button>
         </div>
         <div class="grid grid-cols-1 gap-6 mt-5">
             <div class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105"
