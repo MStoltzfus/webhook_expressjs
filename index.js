@@ -14,6 +14,8 @@ app.listen(PORT, () => {
 app.use(express.json({ limit: '500kb' })); //Used to parse JSON bodies
 var urlencodedParser = (express.urlencoded({ extended: true }))//Parse URL-encoded bodies
 
+app.use(cors()); //Enables CORS
+
 app.use(express.static('public')); //serves the frontend page (index.html)
 
 const webhookTriggerResponse = (origin) => {
