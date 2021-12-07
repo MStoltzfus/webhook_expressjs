@@ -1,5 +1,5 @@
 const express = require( 'express' );
-const cors = require('cors')
+const cors = require( 'cors' )
 const moment = require( 'moment' );
 const Websocket = require( 'ws' )
 
@@ -52,7 +52,14 @@ This is the start of the actual Express Routes Code
 var hookData = null;
 
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
-app.post( '/webhook', cors(), urlencodedParser, function ( req, res ) {
+const webhookCorsConfig = {
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+app.options( '/webhook', cors(webhookCorsConfig) ) // enable pre-flight request for POST request
+app.post( '/webhook', cors(webhookCorsConfig), urlencodedParser, function ( req, res ) {
   let i = 0;
   let body = req.body;
   let origin = '/webhook';
