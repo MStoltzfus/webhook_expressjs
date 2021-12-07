@@ -1,4 +1,5 @@
 const express = require( 'express' );
+const cors = require('cors')
 const moment = require( 'moment' );
 const Websocket = require( 'ws' )
 
@@ -16,8 +17,6 @@ app.listen( PORT, () => {
 
 app.use( express.json( { limit: '500kb' } ) ); //Used to parse JSON bodies
 var urlencodedParser = ( express.urlencoded( { extended: true } ) )//Parse URL-encoded bodies
-
-app.use(cors()); //Enables CORS
 
 app.use( express.static( 'public' ) ); //serves the frontend page (index.html)
 
@@ -53,7 +52,7 @@ This is the start of the actual Express Routes Code
 var hookData = null;
 
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
-app.post( '/webhook', urlencodedParser, function ( req, res ) {
+app.post( '/webhook', cors(), urlencodedParser, function ( req, res ) {
   let i = 0;
   let body = req.body;
   let origin = '/webhook';
@@ -72,7 +71,7 @@ app.post( '/webhook', urlencodedParser, function ( req, res ) {
   res.status( 200 ).end();
 } );
 
-//allows for incoming post requests to /webhook
+//allows for incoming post requests to /
 app.post( '/', urlencodedParser, function ( req, res ) {
   let body = req.body;
   let origin = '/';
@@ -93,7 +92,7 @@ app.get( "/url", ( req, res ) => {
   res.status( 200 ).end();
 } );
 
-//allows for incoming post requests to /webhook
+//allows for incoming get requests to /webhook
 app.get( "/webhook", ( req, res ) => {
   if ( req.headers['authkey'] == "1234567890" ) {
     if ( hookData !== null ) {
