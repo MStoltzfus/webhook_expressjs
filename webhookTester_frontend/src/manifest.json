@@ -1,6 +1,6 @@
 {
-  "name": "webhhookTester_frontend",
-  "short_name": "webhhookTester_frontend",
+  "name": "webhookTester_frontend",
+  "short_name": "webhookTester_frontend",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",

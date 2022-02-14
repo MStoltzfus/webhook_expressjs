@@ -1,4 +1,4 @@
-# webhhookTester_frontend
+# webhookTester_frontend
 
 ## CLI Commands
 *   `npm install`: Installs dependencies
