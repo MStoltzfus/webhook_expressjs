@@ -1,7 +1,7 @@
-const express = require( 'express' );
-const cors = require( 'cors' )
-const moment = require( 'moment' );
-const Websocket = require( 'ws' )
+import express from "express";
+import cors from "cors";
+import Utils from './Utils/Utils.js';
+import { webhookCorsConfig } from "./Config/expressConfig.js";
 
 const app = express();
 const PORT = process.env.PORT || 3050;
@@ -10,37 +10,12 @@ var pubUrl = process.env.URL;
 //starts the expressJS app
 app.listen( PORT, () => {
   console.log( 'Service Is Running! http://localhost:3050 & ' + pubUrl );
-
-  startWebsocket();
-
 } );
 
 app.use( express.json( { limit: '500kb' } ) ); //Used to parse JSON bodies
 var urlencodedParser = ( express.urlencoded( { extended: true } ) )//Parse URL-encoded bodies
 
 app.use( express.static( 'public' ) ); //serves the frontend page (index.html)
-
-const webhookTriggerResponse = ( origin ) => {
-  console.log( "The Webhook was Triggered!", origin );
-  console.log( moment().format( 'MMMM Do YYYY, h:mm:ss a' ) );
-};
-
-const startWebsocket = () => {
-  const server = new Websocket.Server( { port: 3080 } );
-
-  console.log( 'WS Server started' );
-
-  server.on( 'connection', socket => {
-    socket.on( 'message', message => {
-      let received = '';
-      received += message;
-      console.log( 'message', received );
-
-      socket.send( 'got it! ' + received );
-
-    } );
-  } );
-}
 
 /*
 --
@@ -52,12 +27,7 @@ This is the start of the actual Express Routes Code
 var hookData = null;
 
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
-const webhookCorsConfig = {
-  "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}
+
 app.options( '/webhook', cors(webhookCorsConfig) ) // enable pre-flight request for POST request
 app.post( '/webhook', cors(webhookCorsConfig), urlencodedParser, function ( req, res ) {
   let i = 0;
@@ -82,7 +52,7 @@ app.post( '/webhook', cors(webhookCorsConfig), urlencodedParser, function ( req,
 app.post( '/', urlencodedParser, function ( req, res ) {
   let body = req.body;
   let origin = '/';
-  webhookTriggerResponse( body, origin );
+  Utils.webhookTriggerResponse( body, origin );
   res.send( "POST Request Recieved from " + origin );
   res.status( 200 ).end();
 } );

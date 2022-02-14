@@ -2,11 +2,12 @@
   "name": "webhook_expressjs",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.mjs",
+  "type": "module",
   "scripts": {
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.mjs"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +16,9 @@
     "@microsoft/mgt-element": "^2.3.2",
     "@microsoft/mgt-msal2-provider": "^2.3.2",
     "cors": "^2.8.5",
+    "dayjs": "^1.10.7",
     "express": "^4.17.1",
     "localtunnel": "^2.0.2",
-    "moment": "^2.29.1",
     "node-fetch": "^3.0.0",
     "nodemon": "^2.0.14",
     "ws": "^8.3.0"
