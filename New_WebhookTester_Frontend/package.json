@@ -1,22 +1,23 @@
 {
-  "name": "new-webhooktester-frontend",
+  "name": "vite",
+  "version": "5.0.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "^5.10.3",
+    "@mui/material": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "recharts": "^2.1.14"
   },
   "devDependencies": {
-    "@types/react": "^18.0.17",
-    "@types/react-dom": "^18.0.6",
-    "@vitejs/plugin-react": "^2.1.0",
-    "typescript": "^4.6.4",
-    "vite": "^3.1.0"
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest"
   }
 }
