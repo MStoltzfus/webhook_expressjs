@@ -21,7 +21,7 @@
     "localtunnel": "^2.0.2",
     "node-fetch": "^3.0.0",
     "nodemon": "^2.0.14",
-    "ws": "^8.3.0"
+    "socket.io": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.17"

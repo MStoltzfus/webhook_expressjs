@@ -1,17 +1,33 @@
 import express from "express";
 import cors from "cors";
-import Utils from './Utils/Utils.js';
+import http from 'http';
+import { Server } from "socket.io";
+//import Utils from './Utils/Utils';
 import { webhookCorsConfig } from "./Config/expressConfig.js";
+
 
 const app = express();
 const PORT = process.env.PORT || 3050;
 var pubUrl = process.env.URL;
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+//socket.io
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
+
+server.listen(3080, () => {
+  console.log('listening on *:3080');
+});
 
 //starts the expressJS app
 app.listen( PORT, () => {
   console.log( 'Service Is Running! http://localhost:3050 & ' + pubUrl );
 } );
 
+app.use(cors())
 app.use( express.json( { limit: '500kb' } ) ); //Used to parse JSON bodies
 var urlencodedParser = ( express.urlencoded( { extended: true } ) )//Parse URL-encoded bodies
 
@@ -28,8 +44,8 @@ var hookData = null;
 
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
 
-app.options( '/webhook', cors(webhookCorsConfig) ) // enable pre-flight request for POST request
-app.post( '/webhook', cors(webhookCorsConfig), urlencodedParser, function ( req, res ) {
+app.options( '/webhook') // enable pre-flight request for POST request
+app.post( '/webhook', urlencodedParser, function ( req, res ) {
   let i = 0;
   let body = req.body;
   let origin = '/webhook';
@@ -52,7 +68,6 @@ app.post( '/webhook', cors(webhookCorsConfig), urlencodedParser, function ( req,
 app.post( '/', urlencodedParser, function ( req, res ) {
   let body = req.body;
   let origin = '/';
-  Utils.webhookTriggerResponse( body, origin );
   res.send( "POST Request Recieved from " + origin );
   res.status( 200 ).end();
 } );

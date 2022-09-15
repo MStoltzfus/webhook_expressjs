@@ -14,7 +14,8 @@
     "@mui/material": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "recharts": "^2.1.14"
+    "recharts": "^2.1.14",
+    "socket.io-client": "^4.5.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "latest",
