@@ -8,7 +8,13 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+
+import { fetchData } from './deps/webRequests';
+
+const clickHandler = () => {
+  fetchData()
+}
 
 export const mainListItems = (
   <React.Fragment>
@@ -46,27 +52,18 @@ export const mainListItems = (
 );
 
 export const secondaryListItems = (
+  
   <React.Fragment>
     <ListSubheader component="div" inset>
       Saved reports
     </ListSubheader>
-    <ListItemButton>
+    <ListItemButton
+    onClick={clickHandler}
+    >
       <ListItemIcon>
-        <AssignmentIcon />
+        <CloudDownloadIcon />
       </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="API Call Test" />
     </ListItemButton>
   </React.Fragment>
 );
