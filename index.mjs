@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import http from 'http';
+import { createServer } from "http";
 import { Server } from "socket.io";
 //import Utils from './Utils/Utils';
 import { webhookCorsConfig } from "./Config/expressConfig.js";
@@ -10,17 +11,21 @@ const app = express();
 const PORT = process.env.PORT || 3050;
 var pubUrl = process.env.URL;
 
-const server = http.createServer(app);
-const io = new Server(server);
+const httpServer = createServer();
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:5174"
+  }
+});
 
-//socket.io
 io.on('connection', (socket) => {
   console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
 });
 
-server.listen(3080, () => {
-  console.log('listening on *:3080');
-});
+httpServer.listen(3080);
 
 //starts the expressJS app
 app.listen( PORT, () => {
