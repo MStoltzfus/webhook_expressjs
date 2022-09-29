@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]> <html class="no-js"> <!--<![endif]-->
+<html class="bg-gray-500 p-8">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Michael's Webhook Tester</title>
+
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <h1 class="text-4xl">Webhook Test App</h1>
+    </header>
+    <script type="module" src="client.mjs"></script>
+    <div id="WebhookData" style="min-height:80vh ;">
+        <div class="flex items-center space-x-3 justify-center mt-10 w-full">
+            <!--button @click="store.toggleApp" class="bg-red-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
+                Toggle App State
+            </button-->
+            <!--h3 class="text-base mt-4 p-3 rounded shadow bg-green-300">{{ store.appState }}</h3-->
+            <button @click="store.clearServerData"
+                class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
+                Clear Data
+            </button>
+        </div>
+        <div class="grid grid-cols-1 gap-6 mt-5">
+            <div class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105"
+                v-for="data in store.data">
+                <a target="_blank"
+                    class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105">
+                    <h3 class="font-bold text-base">{{data.name}}</h3>
+                    <pre>{{ p(data) }}</pre>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
