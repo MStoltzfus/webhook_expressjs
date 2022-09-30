@@ -36,9 +36,6 @@ const store = reactive( {
   },
   setUserName(p) {
     this.userName = p
-  },
-  checkUserName() {
-    console.log(store.userName)
   }
 } );
 
@@ -54,7 +51,7 @@ const setUser = () => {
 
 setUser();
 
-socket.on( "webhookUpdate", function ( msg ) {
+socket.on( "webhookUpdate" + store.userName, function ( msg ) {
   console.log( "webhookUpdate" )
   //webhookHistory.Setter( JSON.stringify( msg ) );
   store.dataUpdate( msg )
