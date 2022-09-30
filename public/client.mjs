@@ -39,7 +39,8 @@ const store = reactive( {
     this.userName = p
   },
   setWebhookEndpoint() {
-    this.webhookEndpoint = "https://webhooktester-beta.mstoltzf.us/webhook?userName=" + this.userName
+    let stuff = this.webhookEndpoint = "https://webhooktester-beta.mstoltzf.us/webhook?userName=" + this.userName
+    return stuff
   }
 } );
 
@@ -62,6 +63,7 @@ const setUser = () => {
 }
 
 setUser();
+console.log( store.setWebhookEndpoint() )
 
 socket.on( "webhookUpdate" + store.userName, function ( msg ) {
   console.log( "webhookUpdate" )
