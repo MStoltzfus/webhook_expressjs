@@ -73,7 +73,9 @@ console.log( store.webhookEndpoint() )
 
 socket.on( "webhookUpdate" + store.userName, function ( msg ) {
   console.log( "webhookUpdate" )
+  webhookHistory.Setter( JSON.stringify( msg ) );
   store.dataUpdate( msg );
+  console.log(webhookHistory.Getter());
 } )
 
 //functions and data needed for petite-vue state
