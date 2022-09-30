@@ -12,7 +12,12 @@ const p = ( value ) => {
 
 const webhookHistory = {
   Setter( value ) {
-    localStorage.setItem( 'webhookHistory', value )
+    let foo = localStorage.getItem( 'webhookHistory' )
+    if ( foo === null ) {
+      localStorage.setItem( 'webhookHistory', [value] )
+    } else {
+      localStorage.setItem( 'webhookHistory', [...foo, value] )
+    }
   },
   Getter() {
     localStorage.getItem( 'webhookHistory' )
@@ -22,7 +27,6 @@ const webhookHistory = {
 const store = reactive( {
   testKey: false,
   userName: "",
-  webhookEndpoint: "",
   data: [],
 
   dataUpdate( input ) {
@@ -38,9 +42,11 @@ const store = reactive( {
   setUserName( p ) {
     this.userName = p
   },
-  setWebhookEndpoint() {
-    let stuff = this.webhookEndpoint = "https://webhooktester-beta.mstoltzf.us/webhook?userName=" + this.userName
-    return stuff
+  webhookEndpoint() {
+    return "https://webhooktester-beta.mstoltzf.us/webhook?userName=" + this.userName
+  },
+  setTestKey( input ) {
+    this.testKey = input
   }
 } );
 
@@ -63,12 +69,11 @@ const setUser = () => {
 }
 
 setUser();
-console.log( store.setWebhookEndpoint() )
+console.log( store.webhookEndpoint() )
 
 socket.on( "webhookUpdate" + store.userName, function ( msg ) {
   console.log( "webhookUpdate" )
-  //webhookHistory.Setter( JSON.stringify( msg ) );
-  store.dataUpdate( msg )
+  store.dataUpdate( msg );
 } )
 
 //functions and data needed for petite-vue state
