@@ -44,6 +44,15 @@
                 </a>
             </div>
         </div>
+        <div>
+            <button @click="store.testKey = !store.testKey">Toggle</button>
+
+            <h1 v-if="store.testKey">Vue is awesome!</h1>
+            <h1 v-else>Oh no 😢</h1>
+            <div v-if="store.testKey === null">
+                no testKey set
+            </div>
+        </div>
     </div>
 </body>
 

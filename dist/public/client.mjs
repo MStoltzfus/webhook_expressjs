@@ -40,7 +40,7 @@ const store = reactive( {
 } );
 
 const setUser = () => {
-  if (localStorage.getItem( 'userName' ) === null) {
+  if (localStorage.getItem( 'userName' ) === null || 'null' || undefined) {
     let userN = prompt('Enter Your Name')
     localStorage.setItem( 'userName', userN )
     store.setUserName(userN);

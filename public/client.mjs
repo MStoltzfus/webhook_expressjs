@@ -20,32 +20,44 @@ const webhookHistory = {
 }
 
 const store = reactive( {
-  authKey: "",
+  testKey: false,
   userName: "",
+  webhookEndpoint: "",
   data: [],
 
   dataUpdate( input ) {
     console.log( "state update" )
     this.data = [...this.data, input];
-    console.log(this.data)
+    console.log( this.data )
   },
   clearServerData() {
     foo = [];
     this.data = foo
-    socket.emit("userClear", this.userName);
+    socket.emit( "userClear", this.userName );
   },
-  setUserName(p) {
+  setUserName( p ) {
     this.userName = p
+  },
+  setWebhookEndpoint() {
+    this.webhookEndpoint = "https://webhooktester-beta.mstoltzf.us/webhook?userName=" + this.userName
   }
 } );
 
 const setUser = () => {
-  if (localStorage.getItem( 'userName' ) === null) {
-    let userN = prompt('Enter Your Name')
+
+  let conditionsArray = [
+    localStorage.getItem( 'userName' ) === null,
+    localStorage.getItem( 'userName' ) === undefined,
+    localStorage.getItem( 'userName' ) === "null",
+    localStorage.getItem( 'userName' ) === ""
+  ]
+
+  if ( conditionsArray.includes( true ) ) {
+    let userN = prompt( 'Enter Your Name' )
     localStorage.setItem( 'userName', userN )
-    store.setUserName(userN);
+    store.setUserName( userN );
   } else {
-    store.setUserName(localStorage.getItem( 'userName' ));
+    store.setUserName( localStorage.getItem( 'userName' ) );
   }
 }
 
