@@ -32,7 +32,6 @@ const store = reactive( {
   dataUpdate( input ) {
     console.log( "state update" )
     this.data = [...this.data, input];
-    console.log( this.data )
   },
   clearServerData() {
     foo = [];
@@ -69,13 +68,17 @@ const setUser = () => {
 }
 
 setUser();
-console.log( store.webhookEndpoint() )
+
+socket.on( "serverRestart", function () {
+  console.log('server Restart')
+  location.reload();
+} )
 
 socket.on( "webhookUpdate" + store.userName, function ( msg ) {
   console.log( "webhookUpdate" )
   webhookHistory.Setter( JSON.stringify( msg ) );
   store.dataUpdate( msg );
-  console.log(webhookHistory.Getter());
+  console.log( webhookHistory.Getter() );
 } )
 
 //functions and data needed for petite-vue state

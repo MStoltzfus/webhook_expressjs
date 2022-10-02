@@ -46,7 +46,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
+
 });
+
+console.log();
 
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
 
@@ -55,11 +58,11 @@ app.post("/webhook", urlencodedParser, function (req, res) {
   let body = req.body;
   let origin = "/webhook";
 
-  var userName = req.query.userName
+  var userName = req.query.userName;
 
   webhookTriggerResponse(origin, userName);
 
-  io.emit("webhookUpdate"+userName, body);
+  io.emit("webhookUpdate" + userName, body);
 
   console.log(body);
 
