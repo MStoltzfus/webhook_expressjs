@@ -49,6 +49,8 @@ const store = reactive( {
   }
 } );
 
+var queryParams = new URLSearchParams( window.location.search );
+
 const setUser = () => {
 
   let conditionsArray = [
@@ -61,16 +63,21 @@ const setUser = () => {
   if ( conditionsArray.includes( true ) ) {
     let userN = prompt( 'Enter Your Name' )
     localStorage.setItem( 'userName', userN )
+    queryParams.set( "userName", userN );
+    history.pushState( null, null, "?" + queryParams.toString() );
     store.setUserName( userN );
   } else {
-    store.setUserName( localStorage.getItem( 'userName' ) );
+    let userN = localStorage.getItem( 'userName' );
+    store.setUserName( userN );
+    queryParams.set( "userName", userN );
+    history.pushState( null, null, "?" + queryParams.toString() );
   }
 }
 
 setUser();
 
 socket.on( "serverRestart", function () {
-  console.log('server Restart')
+  console.log( 'server Restart' )
   location.reload();
 } )
 
