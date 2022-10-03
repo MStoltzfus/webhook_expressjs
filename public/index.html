@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
+    <title>Webhook Tester</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -23,25 +23,34 @@
     </header>
     <script type="module" src="client.mjs"></script>
     <div id="WebhookData" style="min-height:80vh ;">
-        <div class="flex items-center space-x-3 justify-center mt-10 w-full">
-            <!--button @click="store.toggleApp" class="bg-red-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
-                Toggle App State
-            </button-->
-            <!--h3 class="text-base mt-4 p-3 rounded shadow bg-green-300">{{ store.appState }}</h3-->
-            <button @click="store.clearServerData"
-                class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
-                Clear Data
-            </button>
+        <div id="userNameEntry">
+
         </div>
-        <div class="grid grid-cols-1 gap-6 mt-5">
-            <div class="flex flex-col items-center p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105"
-                v-for="data in store.data">
-                <a target="_blank"
-                    class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105">
-                    <h3 class="font-bold text-base">{{data.name}}</h3>
-                    <h3 class="font-bold text-base">Event Name: {{data.EventName}}</h3>
-                    <pre>{{ p(data) }}</pre>
-                </a>
+        <div id="mainApp">
+            <div class="flex flex-col items-center space-x-3 justify-center mt-10 w-full">
+                <h3> Your Webhook Endpoint URL Is: {{ store.webhookEndpoint() }}</h3>
+                <button @click="store.clearServerData"
+                    class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
+                    Clear Data
+                </button>
+            </div>
+            <div class="grid grid-cols-1 gap-6 mt-5">
+                <div class="flex flex-col items-center p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105"
+                    v-for="data in store.data">
+                    <a target="_blank"
+                        class="flex flex-col items-center shadow border-2 p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105">
+                        <h3 class="font-bold text-base">{{data.name}}</h3>
+                        <h3 class="font-bold text-base">Event Name: {{data.EventName}}</h3>
+                        <pre>{{ p(data) }}</pre>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h1 v-if="store.testKey">Vue is awesome!</h1>
+            <h1 v-else>Oh no 😢</h1>
+            <div v-if="store.testKey === null">
+                no testKey set
             </div>
         </div>
     </div>

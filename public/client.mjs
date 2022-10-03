@@ -12,7 +12,12 @@ const p = ( value ) => {
 
 const webhookHistory = {
   Setter( value ) {
-    localStorage.setItem( 'webhookHistory', value )
+    let foo = localStorage.getItem( 'webhookHistory' )
+    if ( foo === null ) {
+      localStorage.setItem( 'webhookHistory', [value] )
+    } else {
+      localStorage.setItem( 'webhookHistory', [...foo, value] )
+    }
   },
   Getter() {
     localStorage.getItem( 'webhookHistory' )
@@ -20,41 +25,67 @@ const webhookHistory = {
 }
 
 const store = reactive( {
-  authKey: "",
+  testKey: false,
   userName: "",
   data: [],
 
   dataUpdate( input ) {
     console.log( "state update" )
     this.data = [...this.data, input];
-    console.log(this.data)
   },
   clearServerData() {
     foo = [];
     this.data = foo
-    socket.emit("userClear", this.userName);
+    socket.emit( "userClear", this.userName );
   },
-  setUserName(p) {
+  setUserName( p ) {
     this.userName = p
+  },
+  webhookEndpoint() {
+    return "https://webhooktester-beta.mstoltzf.us/webhook?userName=" + this.userName
+  },
+  setTestKey( input ) {
+    this.testKey = input
   }
 } );
 
+var queryParams = new URLSearchParams( window.location.search );
+
 const setUser = () => {
-  if (localStorage.getItem( 'userName' ) === null) {
-    let userN = prompt('Enter Your Name')
+
+  let conditionsArray = [
+    localStorage.getItem( 'userName' ) === null,
+    localStorage.getItem( 'userName' ) === undefined,
+    localStorage.getItem( 'userName' ) === "null",
+    localStorage.getItem( 'userName' ) === ""
+  ]
+
+  if ( conditionsArray.includes( true ) ) {
+    let userN = prompt( 'Enter Your Name' )
     localStorage.setItem( 'userName', userN )
-    store.setUserName(userN);
+    queryParams.set( "userName", userN );
+    history.pushState( null, null, "?" + queryParams.toString() );
+    store.setUserName( userN );
   } else {
-    store.setUserName(localStorage.getItem( 'userName' ));
+    let userN = localStorage.getItem( 'userName' );
+    store.setUserName( userN );
+    queryParams.set( "userName", userN );
+    history.pushState( null, null, "?" + queryParams.toString() );
   }
 }
 
 setUser();
 
+socket.on( "serverRestart", function () {
+  console.log( 'server Restart' )
+  location.reload();
+} )
+
 socket.on( "webhookUpdate" + store.userName, function ( msg ) {
   console.log( "webhookUpdate" )
-  //webhookHistory.Setter( JSON.stringify( msg ) );
-  store.dataUpdate( msg )
+  webhookHistory.Setter( JSON.stringify( msg ) );
+  store.dataUpdate( msg );
+  console.log( webhookHistory.Getter() );
 } )
 
 //functions and data needed for petite-vue state

@@ -35,6 +35,7 @@ io.on("connection", (socket) => {
         console.log("user disconnected");
     });
 });
+console.log();
 //creates a "/webhook endpoint to the domain that can process post requests and console.logs the results"
 app.options("/webhook"); // enable pre-flight request for POST request
 app.post("/webhook", urlencodedParser, function (req, res) {
