@@ -75,6 +75,8 @@ app.post("/webhook", urlencodedParser, function (req, res) {
   res.status(200).end();
 });
 
+console.log(process.env.ENVIRONMENT)
+
 //server.listen should always be at the bottom of the index.ts file
 server.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
