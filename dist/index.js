@@ -50,8 +50,12 @@ app.post("/webhook", urlencodedParser, function (req, res) {
         " get the current stored data. Note: Proper authorization required.");
     res.status(200).end();
 });
-console.log(process.env.ENVIRONMENT);
 //server.listen should always be at the bottom of the index.ts file
 server.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+    if (process.env.ENVIRONMENT === 'development') {
+        console.log(`⚡️[server]: Dev Server is running at http://localhost:${port}`);
+    }
+    else {
+        console.log(`⚡️[server]: Server is running at ${process.env.RAILWAY_STATIC_URL}:${port}`);
+    }
 });
