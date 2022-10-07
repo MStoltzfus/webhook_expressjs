@@ -8,3 +8,5 @@ console.log('index.html was copied to ./dist/public');
 copyFileSync('./public/socketChatClient.html', './dist/public/socketChatClient.html');
 console.log('socketChatClient.html was copied to ./dist/public');
 
+copyFileSync('./public/style.css', './dist/public/style.css');
+console.log('style.css was copied to ./dist/public');

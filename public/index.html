@@ -3,7 +3,7 @@
 <!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]> <html class="no-js"> <!--<![endif]-->
-<html class="bg-gray-500 p-8">
+<html class="bg-purple-600 p-8">
 
 <head>
     <meta charset="utf-8" />
@@ -15,24 +15,32 @@
     <title>Michael's Webhook Tester</title>
 
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
 </head>
 
 <body>
     <header>
-        <h1 class="text-4xl">Webhook Test App</h1>
+        <h1>Webhook Test App</h1>
     </header>
     <script type="module" src="client.mjs"></script>
-    <div id="WebhookData" style="min-height:80vh ;">
-        <div id="userNameEntry">
-
-        </div>
-        <div id="mainApp">
-            <div class="flex flex-col items-center space-x-3 justify-center mt-10 w-full">
-                <h3> Your Webhook Endpoint URL Is: {{ store.webhookEndpoint() }}</h3>
-                <button @click="store.clearServerData"
-                    class="bg-purple-200 font-bold mt-4 p-3 rounded shadow text-xl uppercase">
-                    Clear Data
-                </button>
+    <div id="WebhookData" class="main">
+        <div v-if="store.isUserNameSet" id="mainApp">
+            <div id="infoAndButtons" class="info">
+                <span class="flexitem">
+                    <div class="urlAndCopyBtnContainer">
+                        <h3 id="URL" class="bg-purple-200 font-normal p-2 rounded shadow text-sm">
+                            Your Webhook Endpoint URL Is: {{ store.webhookEndpoint() }}
+                        </h3>
+                        <button class="bg-purple-200 font-bold p-2 ml-1 rounded shadow text-sm" @click="copyURL()">Copy
+                            URL</button>
+                    </div>
+                </span>
+                <span class="flexitem">
+                    <button @click="store.clearServerData"
+                        class="bg-purple-200 font-bold p-2 rounded shadow text-lg uppercase">
+                        Clear Data
+                    </button>
+                </span>
             </div>
             <div class="grid grid-cols-1 gap-6 mt-5">
                 <div class="flex flex-col items-center p-5 transition duration-500 ease-in-out transform hover\:-translate-y-1 hover\:scale-105"
@@ -46,12 +54,17 @@
                 </div>
             </div>
         </div>
-        <div>
-            <h1 v-if="store.testKey">Vue is awesome!</h1>
-            <h1 v-else>Oh no 😢</h1>
-            <div v-if="store.testKey === null">
-                no testKey set
-            </div>
+        <div v-else id="userNFormContainer" class="inputContainer">
+            <form id="userNameEntryForm">
+                <label for="userName" class="userNameLabel">Set Your User Name:</label>
+                <input type="text" id="userName" name="userName" size="25"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <button
+                    class="bg-purple-200 hover:bg-purple-400 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    Submit
+                </button>
+            </form>
         </div>
     </div>
 </body>
