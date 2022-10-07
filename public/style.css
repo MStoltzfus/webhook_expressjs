@@ -39,3 +39,12 @@ h1 {
   color: rgb(221, 214, 254);
   font-size: medium;
 }
+
+.urlAndCopyBtnContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}

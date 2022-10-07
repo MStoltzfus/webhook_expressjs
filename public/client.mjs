@@ -64,6 +64,17 @@ const store = reactive( {
   }
 } );
 
+function copyURL() {
+  // Get the text field
+  var copyText = store.webhookEndpoint();
+
+   // Copy the text
+  navigator.clipboard.writeText(copyText);
+
+  // Alert the copied text
+  alert("Copied the URL to Clipboard");
+}
+
 const isUserNameSet = () => {
   if ( localStoreUserNameConditionsArray.includes( true ) ) {
     if ( urlParamUserNameConditionsArray.includes( true ) ) {
@@ -96,4 +107,4 @@ socket.on( "webhookUpdate" + store.userName, function ( msg ) {
 } )
 
 //functions and data needed for petite-vue state
-createApp( { store, p } ).mount( "#WebhookData" );
+createApp( { store, p, copyURL } ).mount( "#WebhookData" );
