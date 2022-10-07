@@ -1,4 +1,4 @@
-import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
+import { createApp, reactive } from "https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js";
 import "/socket.io/socket.io.js";
 
 //socket.io logic
@@ -64,12 +64,12 @@ const store = reactive( {
   }
 } );
 
-function copyURL() {
+async function copyURL() {
   // Get the text field
   var copyText = store.webhookEndpoint();
 
    // Copy the text
-  navigator.clipboard.writeText(copyText);
+  await navigator.clipboard.writeText(copyText);
 
   // Alert the copied text
   alert("Copied the URL to Clipboard");
