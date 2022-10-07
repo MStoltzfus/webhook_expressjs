@@ -80,7 +80,9 @@ app.post("/webhook", urlencodedParser, function (req, res) {
 server.listen(port, () => {
   if (process.env.DEVELOPMENT) {
     console.log(`⚡️[server]: Dev Server is running at http://localhost:${port}`);
-  } else {
+  } else if (process.env.HOST === "RAILWAY"){
     console.log(`⚡️[server]: Server is running at ${process.env.RAILWAY_STATIC_URL}:${port}`);
+  } else if (process.env.HOST === "RENDER") {
+    console.log(`⚡️[server]: Server is running at ${process.env.RENDER_EXTERNAL_URL}:${port}`);
   }
 });
