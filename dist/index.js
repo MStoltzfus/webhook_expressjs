@@ -52,7 +52,7 @@ app.post("/webhook", urlencodedParser, function (req, res) {
 });
 //server.listen should always be at the bottom of the index.ts file
 server.listen(port, () => {
-    if (process.env.ENVIRONMENT === 'development') {
+    if (process.env.DEVELOPMENT) {
         console.log(`⚡️[server]: Dev Server is running at http://localhost:${port}`);
     }
     else {

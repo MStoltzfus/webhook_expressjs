@@ -5,9 +5,10 @@ import "/socket.io/socket.io.js";
 const socket = io();
 var foo = []
 
+var queryParams = new URLSearchParams( window.location.search );
+
 const p = ( value ) => {
   return JSON.stringify( value, null, 2 );
-
 };
 
 const webhookHistory = {
@@ -24,8 +25,22 @@ const webhookHistory = {
   },
 }
 
+let localStoreUserNameConditionsArray = [
+  localStorage.getItem( 'userName' ) === null,
+  localStorage.getItem( 'userName' ) === undefined,
+  localStorage.getItem( 'userName' ) === "null",
+  localStorage.getItem( 'userName' ) === "",
+]
+
+let urlParamUserNameConditionsArray = [
+  queryParams.get( 'userName' ) === null,
+  queryParams.get( 'userName' ) === undefined,
+  queryParams.get( 'userName' ) === "null",
+  queryParams.get( 'userName' ) === ""
+]
+
 const store = reactive( {
-  testKey: false,
+  isUserNameSet: false,
   userName: "",
   data: [],
 
@@ -44,37 +59,31 @@ const store = reactive( {
   webhookEndpoint() {
     return "https://webhooktester-beta.mstoltzf.us/webhook?userName=" + this.userName
   },
-  setTestKey( input ) {
-    this.testKey = input
+  setIsUserNameSet( input ) {
+    this.isUserNameSet = input
   }
 } );
 
-var queryParams = new URLSearchParams( window.location.search );
-
-const setUser = () => {
-
-  let conditionsArray = [
-    localStorage.getItem( 'userName' ) === null,
-    localStorage.getItem( 'userName' ) === undefined,
-    localStorage.getItem( 'userName' ) === "null",
-    localStorage.getItem( 'userName' ) === ""
-  ]
-
-  if ( conditionsArray.includes( true ) ) {
-    let userN = prompt( 'Enter Your Name' )
-    localStorage.setItem( 'userName', userN )
-    queryParams.set( "userName", userN );
-    history.pushState( null, null, "?" + queryParams.toString() );
-    store.setUserName( userN );
+const isUserNameSet = () => {
+  if ( localStoreUserNameConditionsArray.includes( true ) ) {
+    if ( urlParamUserNameConditionsArray.includes( true ) ) {
+      return false
+    } else {
+      let userN = queryParams.get('userName')
+      localStorage.setItem( 'userName', userN )
+      store.setUserName( userN );
+      return true
+    }
   } else {
     let userN = localStorage.getItem( 'userName' );
     store.setUserName( userN );
-    queryParams.set( "userName", userN );
-    history.pushState( null, null, "?" + queryParams.toString() );
+    return true
   }
 }
 
-setUser();
+store.setIsUserNameSet( isUserNameSet() )
+
+console.log( isUserNameSet() );
 
 socket.on( "serverRestart", function () {
   console.log( 'server Restart' )
