@@ -83,8 +83,6 @@ const isUserNameSet = () => {
 
 store.setIsUserNameSet( isUserNameSet() )
 
-console.log( isUserNameSet() );
-
 socket.on( "serverRestart", function () {
   console.log( 'server Restart' )
   location.reload();

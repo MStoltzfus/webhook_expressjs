@@ -15,45 +15,22 @@
     <title>Michael's Webhook Tester</title>
 
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
-    <style>
-        .info {
-            display: grid;
-            padding: .5rem;
-            align-content: center;
-            align-items: stretch;
-            justify-content: center;
-            justify-items: center;
-        }
-
-        .flexitem {
-            padding: 5px 5px 5px 5px;
-        }
-
-        .inputContainer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 30vh;
-        }
-
-        .inputContainer form {
-            width: 15rem;
-        }
-    </style>
+    <link href="style.css" rel="stylesheet" />
 </head>
 
 <body>
-    <header style="margin-bottom: 1rem">
-        <h1 style="color: rgb(221,214,254); font-size: xx-large;">Webhook Test App</h1>
+    <header>
+        <h1>Webhook Test App</h1>
     </header>
     <script type="module" src="client.mjs"></script>
-    <div id="WebhookData" style="min-height:80vh;">
+    <div id="WebhookData" class="main">
         <div v-if="store.isUserNameSet" id="mainApp">
             <div id="infoAndButtons" class="info">
                 <span class="flexitem">
                     <h3 class="bg-purple-200 font-normal p-2 rounded shadow text-sm">
                         Your Webhook Endpoint URL Is: {{ store.webhookEndpoint() }}
                     </h3>
+                    <button></button>
                 </span>
                 <span class="flexitem">
                     <button @click="store.clearServerData"
@@ -76,7 +53,7 @@
         </div>
         <div v-else id="userNFormContainer" class="inputContainer">
             <form id="userNameEntryForm">
-                <label for="userName" style="color: rgb(221,214,254); font-size: medium;">Set Your User Name:</label>
+                <label for="userName" class="userNameLabel">Set Your User Name:</label>
                 <input type="text" id="userName" name="userName" size="25"
                     class="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <button

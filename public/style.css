@@ -1,0 +1,41 @@
+header {
+  margin-bottom: 1rem;
+}
+
+h1 {
+  color: rgb(221, 214, 254);
+  font-size: xx-large;
+}
+
+.main {
+  min-height: 80vh;
+}
+
+.info {
+  display: grid;
+  padding: 0.5rem;
+  align-content: center;
+  align-items: stretch;
+  justify-content: center;
+  justify-items: center;
+}
+
+.flexitem {
+  padding: 5px 5px 5px 5px;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30vh;
+}
+
+.inputContainer form {
+  width: 15rem;
+}
+
+.userNameLabel {
+  color: rgb(221, 214, 254);
+  font-size: medium;
+}
